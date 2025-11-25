@@ -1,0 +1,40 @@
+<section class="space-y-6">
+  <div class="flex justify-between">
+    <div>
+      <h1 class="text-2xl text-content-900 font-bold">Suas Metas</h1>
+      <p class="text-base text-content-300">Organize e acompanhe seus objetivos</p>
+    </div>
+    <div>
+      <button
+        type="submit"
+        class="bg-brand-500 px-5 py-2 rounded-xl text-surface-100"
+        (click)="showregisterBox()"
+      >
+        Criar Caixinha
+      </button>
+      @if (registerBox()) {
+      <dialog id="my_modal_3" class="modal modal-open">
+        <div class="modal-box bg-surface-50 rounded">
+          <form method="dialog">
+            <button
+              class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              (click)="closeRegisterBox()"
+            >
+              ✕
+            </button>
+          </form>
+
+          <app-goal-register (registerModel)="register($event)" />
+        </div>
+      </dialog>
+      }
+    </div>
+  </div>
+
+
+  <div class="grid gap-6 grid-cols-1 items-stretch sm:grid-cols-2 lg:grid-cols-3">
+    @for (goal of goals(); track goal.id) {
+    <app-goal-card [goal]="goal" (updated)="onGoalUpdated($event)" />
+    }
+  </div>
+</section>

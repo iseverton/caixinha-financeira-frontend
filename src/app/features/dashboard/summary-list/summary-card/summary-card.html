@@ -1,0 +1,7 @@
+<div class="bg-surface-100 w-full h-full flex flex-col justify-center py-7 px-5 rounded-xl shadow">
+  <h1 class="text-content-300">{{ title() }}</h1>
+
+  <span class="font-semibold text-2xl" [ngClass]="cor()">
+    {{ isCurrency() ? (value() | currency : 'BRL') : value() }}</span
+  >
+</div>

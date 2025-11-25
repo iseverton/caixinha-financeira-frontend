@@ -1,0 +1,27 @@
+<div class="flex gap-20">
+  <div class="flex-1">
+    <app-summary-card
+      [title]="'Total Economizado'"
+      [value]="totalSaved()"
+      [isCurrency]="true"
+      [cor]="'text-brand-700'"
+    />
+  </div>
+
+  <div class="flex-1">
+    <app-summary-card
+      [title]="'Meta Total'"
+      [value]="totalGoal()"
+      [isCurrency]="true"
+      [cor]="'text-content-900'"
+    />
+  </div>
+
+  <div class="flex-1">
+    <app-summary-card
+      [title]="'Caixinhas Ativas'"
+      [value]="activeGoals()"
+      [cor]="'text-brand-500'"
+    />
+  </div>
+</div>

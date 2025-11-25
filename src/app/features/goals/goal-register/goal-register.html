@@ -1,0 +1,71 @@
+<form #formControl="ngForm" (submit)="submit(formControl)" class="flex flex-col gap-3">
+  <div>
+    <h1 class="text-xl text-content-900">Nova Caixinha</h1>
+    <p class="text-content-500">Crie uma nova meta de economia e comece a realizar seus sonhos</p>
+  </div>
+
+  <div class="flex flex-col">
+    <label>Nome</label>
+    <input
+      type="text"
+      placeholder="Ex: Viagem para a praia"
+      name="nome"
+      [(ngModel)]="goal.name"
+      #nameControl="ngModel"
+      minlength="5"
+      required
+      class="border rounded-md focus:border-brand-500 px-2 py-1 text-sm text-content-900 placeholder-gray-300 focus:outline-none"
+    />
+
+    @if (nameControl.invalid && (nameControl.dirty || nameControl.touched)) {
+    @if(nameControl.hasError('required')) {
+    <span class="text-red-500">O campo nome é obrigatorio</span>
+    } @if (nameControl.hasError('minlength')) {
+    <span>O campo nome deve ter pelo menos 5 caracteres</span>
+    } }
+  </div>
+
+  <div class="flex flex-col">
+    <label>Valor da meta</label>
+    <input
+      type="number"
+      placeholder="1000.00"
+      name="valor"
+      [(ngModel)]="goal.targetAmount"
+      #valorControl="ngModel"
+      required
+      class="border rounded-md focus:border-brand-500 px-2 py-1 text-sm text-content-900 placeholder-gray-300 focus:outline-none"
+    />
+
+    @if (valorControl.invalid && (valorControl.dirty || valorControl.touched)) {
+    @if(valorControl.hasError('required')) {
+    <span>O campo valor da meta é obrigatorio</span>
+    } }
+  </div>
+
+  <div class="flex flex-col">
+    <label>Data da meta</label>
+    <input
+      type="date"
+      name="data"
+      [(ngModel)]="goal.targetDate"
+      #dataControl="ngModel"
+      required
+      class="border rounded-md focus:border-brand-500 px-2 py-1 text-sm text-content-900 placeholder-gray-300 focus:outline-none"
+    />
+
+    @if (dataControl.invalid && (dataControl.dirty || dataControl.touched)) {
+    @if(dataControl.hasError('required')) {
+    <span>O campo data da meta é obrigatorio</span>
+    } }
+  </div>
+
+  <div class="">
+    <button
+      type="submit"
+      class="bg-linear-to-r from-brand-300 to-brand-500 py-2 px-5 rounded-lg flex justify-center items-center gap-1 text-white"
+    >
+      Cadastrar
+    </button>
+  </div>
+</form>
