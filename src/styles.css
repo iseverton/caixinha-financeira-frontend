@@ -1,1 +1,46 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap');
+
+@import 'tailwindcss';
+
+@theme {
+  /* primary */
+  --color-brand-50: #eff9ff;
+  --color-brand-100: #def1ff;
+  --color-brand-200: #b6e6ff;
+  --color-brand-300: #75d4ff;
+  --color-brand-400: #2cbeff;
+  --color-brand-500: #00a4f4; /* primary */
+  --color-brand-600: #0084d4;
+  --color-brand-700: #0069ab;
+  --color-brand-800: #00598d;
+  --color-brand-900: #064a74;
+  --color-brand-950: #042f4d;
+
+  /* Surface / Backgound */
+  --color-surface-50: #f6f7f9;
+  --color-surface-100: #ffffff;
+
+  --color-content-900: #3d3d3d; /* Títulos / texto principal */
+  --color-content-700: #333333; /* Corpo */
+  --color-content-500: #6b6b6b; /* Texto secundário */
+  --color-content-300: #888888; /* Placeholder / labels fracas */
+
+  --font-sans: 'Figtree', system-ui, sans-serif;
+}
+@plugin "daisyui" {
+  themes: false;
+}
+
+body {
+  @apply bg-surface-50;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
