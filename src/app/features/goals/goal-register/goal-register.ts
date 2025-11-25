@@ -1,6 +1,7 @@
 import { Component, output, signal } from '@angular/core';
 import { FormControl, FormsModule } from '@angular/forms';
 import { goal } from '../../../shared/components/models/goal';
+import { CreateGoal } from './create-goal';
 
 @Component({
   selector: 'app-goal-register',
@@ -9,15 +10,13 @@ import { goal } from '../../../shared/components/models/goal';
   styleUrl: './goal-register.css',
 })
 export class GoalRegister {
-  openModel = signal(false);
-  registerModel = output<goal>();
+  registerModel = output<CreateGoal>();
+  openModel = signal<boolean>(false);
 
-  goal: goal = {
-    name: '',
-    targetDate: new Date(),
+  goal: CreateGoal = {
+    name: null,
+    targetDate: null,
     targetAmount: null,
-    currentAmount: null,
-    description: '',
   };
 
   submit(form: any) {

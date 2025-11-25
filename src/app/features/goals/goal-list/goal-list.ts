@@ -5,6 +5,7 @@ import { goal } from '../../../shared/components/models/goal';
 import { GoalService } from '../../../core/goal-service';
 import { AsyncPipe } from '@angular/common';
 import { GoalRegister } from '../goal-register/goal-register';
+import { CreateGoal } from '../goal-register/create-goal';
 
 @Component({
   selector: 'app-goal-list',
@@ -13,17 +14,16 @@ import { GoalRegister } from '../goal-register/goal-register';
   styleUrl: './goal-list.css',
 })
 export class GoalList implements OnInit {
+  hasChange = output<boolean>();
+
   protected goals = signal<goal[]>([]);
+  registerBox = signal(false);
 
   protected goalService = inject(GoalService);
-
-  hasChange = output<boolean>();
 
   ngOnInit(): void {
     this.get();
   }
-
-  registerBox = signal(false);
 
   showregisterBox() {
     this.registerBox.set(true);
@@ -40,13 +40,20 @@ export class GoalList implements OnInit {
     this.hasChange.emit(true);
   }
 
+  onGoalDeleted(id: number | undefined) {
+    // remove o goal do array
+    this.goals.update((list) => list.filter((g) => g.id !== id));
+    // notifica o dashboard/summary que houve mudança
+    this.hasChange.emit(true);
+  }
+
   get() {
     this.goalService.listAllGoals().subscribe({
       next: (data) => this.goals.set(data),
     });
   }
 
-  register(goal: goal) {
+  register(goal: CreateGoal) {
     this.goalService.CreateGoal(goal).subscribe({
       next: (data) => {
         this.closeRegisterBox(),
