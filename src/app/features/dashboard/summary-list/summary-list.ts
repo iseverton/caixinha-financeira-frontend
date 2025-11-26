@@ -15,8 +15,6 @@ export class SummaryList implements OnInit {
     this.getActiveGoals();
   }
 
-  
-  
   protected goalservice = inject(GoalService);
 
   change = input.required();
@@ -36,7 +34,7 @@ export class SummaryList implements OnInit {
   }
 
   getTotalSaved() {
-    this.goalservice.totalSaved().subscribe({
+    this.goalservice.getTotalSaved().subscribe({
       next: (data) => {
         this.totalSaved.set(data.totalAmountSaved), console.log(this.totalSaved());
       },
@@ -44,7 +42,7 @@ export class SummaryList implements OnInit {
   }
 
   getTotalGoals() {
-    this.goalservice.totalGoals().subscribe({
+    this.goalservice.getTotalGoals().subscribe({
       next: (data) => {
         this.totalGoal.set(data.totalGoalAmount);
       },
@@ -52,7 +50,7 @@ export class SummaryList implements OnInit {
   }
 
   getActiveGoals() {
-    this.goalservice.GetActiveGoals().subscribe({
+    this.goalservice.getActiveGoals().subscribe({
       next: (data) => {
         this.activeGoals.set(data.activeGoalsCount), console.log(this.activeGoals());
       },

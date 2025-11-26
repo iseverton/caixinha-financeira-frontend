@@ -7,12 +7,12 @@
     <div>
       <button
         type="submit"
-        class="bg-brand-500 px-5 py-2 rounded-xl text-surface-100"
-        (click)="showregisterBox()"
+        class="bg-brand-500 px-5 py-2 rounded-xl text-surface-100 cursor-pointer"
+        (click)="openRegisterBox()"
       >
         Criar Caixinha
       </button>
-      @if (registerBox()) {
+      @if (isRegisterBoxOpen()) {
       <dialog id="my_modal_3" class="modal modal-open">
         <div class="modal-box bg-surface-50 rounded">
           <form method="dialog">
@@ -24,17 +24,20 @@
             </button>
           </form>
 
-          <app-goal-register (registerModel)="register($event)" />
+          <app-goal-register (registerModel)="createGoal($event)" />
         </div>
       </dialog>
       }
     </div>
   </div>
 
-
   <div class="grid gap-6 grid-cols-1 items-stretch sm:grid-cols-2 lg:grid-cols-3">
-    @for (goal of goals(); track goal.id) {
-    <app-goal-card [goal]="goal" (updated)="onGoalUpdated($event)" (deleted)="onGoalDeleted($event)" />
+    @for (goal of goalsList(); track goal.id) {
+    <app-goal-card
+      [goal]="goal"
+      (updated)="handleGoalUpdated($event)"
+      (deleted)="handleGoalDeleted($event)"
+    />
     }
   </div>
 </section>

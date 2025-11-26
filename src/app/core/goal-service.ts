@@ -11,31 +11,35 @@ export class GoalService {
   private baseurl: string = 'https://localhost:7283/api/goals/';
   private http = inject(HttpClient);
 
-  CreateGoal(body: CreateGoal): Observable<goal> {
+  registerGoal(body: CreateGoal): Observable<goal> {
     return this.http.post<goal>(this.baseurl, body);
   }
 
-  listAllGoals(): Observable<goal[]> {
+  getAllGoals(): Observable<goal[]> {
     return this.http.get<goal[]>(this.baseurl);
   }
 
-  Deposit(id: any, amount: number) {
+  deposit(id: any, amount: number) {
     return this.http.post<goal>(this.baseurl + id + '/deposit', amount);
   }
 
-  totalSaved() {
+  getTotalSaved() {
     return this.http.get<any>(this.baseurl + 'total');
   }
 
-  totalGoals() {
+  getTotalGoals() {
     return this.http.get<any>(this.baseurl + 'total-goals');
   }
 
-  GetActiveGoals() {
+  getActiveGoals() {
     return this.http.get<any>(this.baseurl + 'active-goals');
   }
 
   deleteGoal(id: any) {
     return this.http.delete(this.baseurl + id);
+  }
+
+  updateGoal(id: any, body:any){
+      return this.http.put<goal>(this.baseurl + id,body);
   }
 }

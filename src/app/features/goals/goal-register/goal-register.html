@@ -21,7 +21,7 @@
     @if(nameControl.hasError('required')) {
     <span class="text-red-500">O campo nome é obrigatorio</span>
     } @if (nameControl.hasError('minlength')) {
-    <span>O campo nome deve ter pelo menos 5 caracteres</span>
+    <span class="text-red-500">O campo nome deve ter pelo menos 5 caracteres</span>
     } }
   </div>
 
@@ -39,7 +39,7 @@
 
     @if (valorControl.invalid && (valorControl.dirty || valorControl.touched)) {
     @if(valorControl.hasError('required')) {
-    <span>O campo valor da meta é obrigatorio</span>
+    <span class="text-red-500">O campo valor da meta é obrigatorio</span>
     } }
   </div>
 
@@ -63,7 +63,7 @@
   <div class="">
     <button
       type="submit"
-      class="bg-linear-to-r from-brand-300 to-brand-500 py-2 px-5 rounded-lg flex justify-center items-center gap-1 text-white"
+      class="bg-linear-to-r from-brand-300 to-brand-500 py-2 px-5 rounded-lg flex justify-center items-center gap-1 text-white cursor-pointer"
     >
       Cadastrar
     </button>

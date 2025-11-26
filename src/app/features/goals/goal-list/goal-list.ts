@@ -1,9 +1,7 @@
-import { Component, inject, input, OnInit, output, Output, signal } from '@angular/core';
+import { Component, inject, input, OnInit, output, signal } from '@angular/core';
 import { GoalCard } from '../goal-card/goal-card';
-import { Observable, single } from 'rxjs';
 import { goal } from '../../../shared/components/models/goal';
 import { GoalService } from '../../../core/goal-service';
-import { AsyncPipe } from '@angular/common';
 import { GoalRegister } from '../goal-register/goal-register';
 import { CreateGoal } from '../goal-register/create-goal';
 
@@ -16,50 +14,47 @@ import { CreateGoal } from '../goal-register/create-goal';
 export class GoalList implements OnInit {
   hasChange = output<boolean>();
 
-  protected goals = signal<goal[]>([]);
-  registerBox = signal(false);
+  protected goalsList = signal<goal[]>([]);
+
+  isRegisterBoxOpen = signal(false);
 
   protected goalService = inject(GoalService);
 
   ngOnInit(): void {
-    this.get();
+    this.loadGoals();
   }
 
-  showregisterBox() {
-    this.registerBox.set(true);
+  loadGoals() {
+    this.goalService.getAllGoals().subscribe({
+      next: (data) => this.goalsList.set(data),
+    });
+  }
+
+  openRegisterBox() {
+    this.isRegisterBoxOpen.set(true);
   }
 
   closeRegisterBox() {
-    this.registerBox.set(false);
+    this.isRegisterBoxOpen.set(false);
   }
 
-  onGoalUpdated(goal: goal) {
-    // this.goals$ = this.goalService.listAllGoals();
-
-    this.goals.update((list) => list.map((g) => (g.id === goal.id ? goal : g)));
-    this.hasChange.emit(true);
-  }
-
-  onGoalDeleted(id: number | undefined) {
-    // remove o goal do array
-    this.goals.update((list) => list.filter((g) => g.id !== id));
-    // notifica o dashboard/summary que houve mudança
-    this.hasChange.emit(true);
-  }
-
-  get() {
-    this.goalService.listAllGoals().subscribe({
-      next: (data) => this.goals.set(data),
-    });
-  }
-
-  register(goal: CreateGoal) {
-    this.goalService.CreateGoal(goal).subscribe({
+  createGoal(goal: CreateGoal) {
+    this.goalService.registerGoal(goal).subscribe({
       next: (data) => {
         this.closeRegisterBox(),
-          this.goals.update((goals) => [...goals, data]),
+          this.goalsList.update((goals) => [...goals, data]),
           this.hasChange.emit(true);
       },
     });
+  }
+
+  handleGoalUpdated(updatedGoal: goal) {
+    this.goalsList.update((list) => list.map((g) => (g.id === updatedGoal.id ? updatedGoal : g)));
+    this.hasChange.emit(true);
+  }
+
+  handleGoalDeleted(id: number | undefined) {
+    this.goalsList.update((list) => list.filter((g) => g.id !== id));
+    this.hasChange.emit(true);
   }
 }

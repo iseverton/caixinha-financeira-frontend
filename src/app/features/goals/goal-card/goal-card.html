@@ -9,15 +9,16 @@
     </div>
 
     <div class="flex gap-4">
+      <!-- update -->
       <div>
-        <button aria-label="Editar" class="p-1 hover:text-blue-600">
+        <button (click)="openUpdateModal()" aria-label="Editar" class="p-1 hover:text-blue-600">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            class="size-6"
+            class="size-5"
           >
             <path
               stroke-linecap="round"
@@ -30,37 +31,105 @@
             />
           </svg>
         </button>
-        
-        @if (showModeldelete()) {
+
+        @if (isUpdateModalOpen ()) {
         <dialog id="my_modal_3" class="modal modal-open">
           <div class="modal-box bg-surface-50 rounded">
             <form method="dialog">
               <button
                 class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                (click)="closeModal()"
+                (click)="closeUpdateModal()"
               >
                 ✕
               </button>
             </form>
             <div class="">
-              <h1 class="text-lg font-semibold mb-3">Confirmar exclusão</h1>
-
-              <p class="text-sm text-gray-600 mb-5">Tem certeza que deseja deletar este item?</p>
-
-              <button
-                (click)="deleteGoal()"
-                class="w-full py-2 rounded-lg bg-red-600 text-white font-medium hover:bg-red-700 transition"
+              <form
+                #formControl="ngForm"
+                (submit)="submitGoalUpdate(formControl)"
+                class="flex flex-col gap-3"
               >
-                Deletar
-              </button>
+                <div>
+                  <h1 class="text-xl text-content-900">Editar Meta</h1>
+                  <p class="text-content-500">
+                    Atualize as informações da sua meta e continue avançando rumo aos seus objetivos
+                  </p>
+                </div>
+
+                <div class="flex flex-col">
+                  <label>Nome</label>
+                  <input
+                    type="text"
+                    placeholder="Ex: Viagem para a praia"
+                    name="nome"
+                    [(ngModel)]="updateGoal().name"
+                    #nameControl="ngModel"
+                    minlength="5"
+                    required
+                    class="border rounded-md focus:border-brand-500 px-2 py-1 text-sm text-content-900 placeholder-gray-300 focus:outline-none"
+                  />
+
+                  @if (nameControl.invalid && (nameControl.dirty || nameControl.touched)) {
+                  @if(nameControl.hasError('required')) {
+                  <span class="text-red-500">O campo nome é obrigatorio</span>
+                  } @if (nameControl.hasError('minlength')) {
+                  <span>O campo nome deve ter pelo menos 5 caracteres</span>
+                  } }
+                </div>
+
+                <div class="flex flex-col">
+                  <label>Valor da meta</label>
+                  <input
+                    type="number"
+                    placeholder="1000.00"
+                    name="valor"
+                    [(ngModel)]="updateGoal().targetAmount"
+                    #valorControl="ngModel"
+                    required
+                    class="border rounded-md focus:border-brand-500 px-2 py-1 text-sm text-content-900 placeholder-gray-300 focus:outline-none"
+                  />
+
+                  @if (valorControl.invalid && (valorControl.dirty || valorControl.touched)) {
+                  @if(valorControl.hasError('required')) {
+                  <span>O campo valor da meta é obrigatorio</span>
+                  } }
+                </div>
+
+                <div class="flex flex-col">
+                  <label>Data da meta</label>
+                  <input
+                    type="date"
+                    name="data"
+                    [(ngModel)]="updateGoal().targetDate"
+                    #dataControl="ngModel"
+                    required
+                    class="border rounded-md focus:border-brand-500 px-2 py-1 text-sm text-content-900 placeholder-gray-300 focus:outline-none"
+                  />
+
+                  @if (dataControl.invalid && (dataControl.dirty || dataControl.touched)) {
+                  @if(dataControl.hasError('required')) {
+                  <span>O campo data da meta é obrigatorio</span>
+                  } }
+                </div>
+
+                <div class="">
+                  <button
+                    type="submit"
+                    class="bg-linear-to-r from-brand-300 to-brand-500 py-2 px-5 rounded-lg flex justify-center items-center gap-1 text-white"
+                  >
+                    Atualizar
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </dialog>
         }
       </div>
 
+      <!-- delete -->
       <div>
-        <button (click)="showdelete()" aria-label="Excluir" class="p-1 hover:text-red-600">
+        <button (click)="openDeleteModal()" aria-label="Excluir" class="p-1 hover:text-red-600">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -84,13 +153,13 @@
           </svg>
         </button>
 
-        @if (showModeldelete()) {
+        @if (isDeleteModalOpen ()) {
         <dialog id="my_modal_3" class="modal modal-open">
           <div class="modal-box bg-surface-50 rounded">
             <form method="dialog">
               <button
                 class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                (click)="closeModal()"
+                (click)="closeDeleteModal()"
               >
                 ✕
               </button>
@@ -152,7 +221,7 @@
 
   <div class="flex items-center justify-center gap-4">
     <button
-      (click)="showadicionar()"
+      (click)="openDepositModal()"
       class="bg-linear-to-r from-brand-300 to-brand-500 py-2 px-5 rounded-lg flex justify-center items-center gap-1 text-white"
     >
       <svg
@@ -196,13 +265,13 @@
     </button>
   </div>
 
-  @if (showModal()) {
+  @if (isDepositModalOpen()) {
   <dialog id="my_modal_3" class="modal modal-open">
     <div class="modal-box bg-surface-50 rounded">
       <form method="dialog">
         <button
           class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-          (click)="closeModal()"
+          (click)="closeDepositModal()"
         >
           ✕
         </button>
@@ -214,7 +283,7 @@
           <span class="text-content-900 font-bold">{{ goal().name }}</span>
         </p>
 
-        <app-goal-deposit-form (depositModel)="deposit($event)" />
+        <app-goal-deposit-form (depositModel)="makeDeposit($event)" />
       </div>
     </div>
   </dialog>
